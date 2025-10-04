@@ -25,10 +25,11 @@
     button {
       padding: 10px 20px;
       margin-top: 10px;
+      cursor: pointer;
     }
     #auctionList {
       max-width: 400px;
-      margin: auto;
+      margin: 30px auto;
       background: white;
       padding: 15px;
       border-radius: 8px;
@@ -49,6 +50,7 @@
 
   <h1>Live Auction</h1>
 
+  <!-- Bid Input Section -->
   <div class="input-section">
     <input type="number" id="userId" placeholder="User Number" />
     <input type="number" id="amount" placeholder="Bid Amount" />
@@ -56,9 +58,18 @@
     <button onclick="submitBid()">Place Bid</button>
   </div>
 
+  <!-- Live Auction Leaderboard -->
   <div id="auctionList"></div>
 
-  <!-- Load main JavaScript file as a module -->
+  <!-- Reset Section -->
+  <div class="input-section" style="margin-top: 40px;">
+    <input type="password" id="resetPassword" placeholder="Admin Password" />
+    <br>
+    <button onclick="resetAuction()">Reset Auction</button>
+  </div>
+
+  <!-- Firebase App Script -->
   <script type="module" src="./main.js"></script>
+
 </body>
 </html>
