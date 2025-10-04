@@ -1,9 +1,9 @@
 // Import Firebase (ES Modules via CDN)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
 
-// Your Firebase configuration
+// ✅ Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBqrEiSUKLSCjApJ2dnSH63hmwV95tcfAM",
   authDomain: "live-auctions-d9008.firebaseapp.com",
@@ -14,17 +14,18 @@ const firebaseConfig = {
   measurementId: "G-M13FSTDZDM"
 };
 
-// Initialize Firebase
+// ✅ Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getDatabase(app);
 
-// DOM references
+// Get DOM elements
 const userIdInput = document.getElementById("userId");
 const amountInput = document.getElementById("amount");
 const auctionList = document.getElementById("auctionList");
+const passwordInput = document.getElementById("resetPassword");
 
-// Submit a bid to Firebase
+// 🔼 Submit a Bid
 window.submitBid = function () {
   const userId = userIdInput.value.trim();
   const amount = parseFloat(amountInput.value.trim());
@@ -38,22 +39,21 @@ window.submitBid = function () {
   set(bidRef, amount);
 };
 
-// Listen for live updates and re-render the list
+// 🔄 Live Listener for Bid Updates
 const bidsRef = ref(db, 'bids');
 onValue(bidsRef, (snapshot) => {
   const data = snapshot.val();
   renderAuction(data);
 });
 
-// Render the auction leaderboard
+// 🖥️ Render the Auction Leaderboard
 function renderAuction(bids) {
   auctionList.innerHTML = "";
 
   if (!bids) return;
 
   const sortedBids = Object.entries(bids)
-    .sort((a, b) => b[1] - a[1])
-    .reverse();
+    .sort((a, b) => b[1] - a[1]);
 
   sortedBids.forEach(([userId, amount]) => {
     const entry = document.createElement("div");
@@ -62,3 +62,25 @@ function renderAuction(bids) {
     auctionList.appendChild(entry);
   });
 }
+
+// 🔐 Reset the Auction (Admin Only)
+window.resetAuction = function () {
+  const password = passwordInput.value.trim();
+  const correctPassword = "admin123"; // ✅ Change this to your actual password
+
+  if (password !== correctPassword) {
+    alert("❌ Incorrect password. Reset denied.");
+    return;
+  }
+
+  const bidsRef = ref(db, 'bids/');
+  remove(bidsRef)
+    .then(() => {
+      alert("✅ Auction has been reset.");
+      passwordInput.value = "";
+    })
+    .catch((error) => {
+      console.error("Reset error:", error);
+      alert("⚠️ Failed to reset auction.");
+    });
+};
