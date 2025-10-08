@@ -13,7 +13,7 @@
     h1 {
       text-align: center;
     }
-    .input-section {
+    .input-section, .admin-section {
       text-align: center;
       margin-bottom: 20px;
     }
@@ -44,32 +44,38 @@
     .user-entry:last-child {
       border-bottom: none;
     }
+    #timer {
+      font-weight: bold;
+      margin-top: 10px;
+      color: red;
+    }
   </style>
 </head>
 <body>
 
   <h1>Live Auction</h1>
 
-  <!-- Navigation & Admin Controls -->
-  <div class="input-section">
+  <!-- Admin Access Section -->
+  <div class="admin-section">
     <button onclick="window.location.href='https://www.fmistemfoundation.org/auction-fmi-need'">Back to Auction Page</button>
     <br><br>
-    <input type="password" id="adminPassword" placeholder="Admin Password" />
-    <button onclick="toggleAuction()">Toggle Auction</button>
+    <input type="password" id="adminPassword" placeholder="Enter Admin Password" />
+    <br>
+    <button onclick="startAdminTimer()">Start Auction Timer</button>
+    <div id="timer"></div>
   </div>
 
-  <!-- Bidding Interface -->
+  <!-- Bidding Section -->
   <div class="input-section">
     <input type="number" id="userId" placeholder="User Number" />
     <input type="number" id="amount" placeholder="Bid Amount" />
     <br>
-    <button onclick="submitBid()">Place Bid</button>
+    <button onclick="submitBid()" id="bidButton">Place Bid</button>
   </div>
 
-  <!-- Leaderboard -->
   <div id="auctionList"></div>
 
-  <!-- Main Script -->
+  <!-- Load main JavaScript file as a module -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>
