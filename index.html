@@ -29,7 +29,7 @@
     }
     #auctionList {
       max-width: 400px;
-      margin: 30px auto;
+      margin: auto;
       background: white;
       padding: 15px;
       border-radius: 8px;
@@ -50,7 +50,15 @@
 
   <h1>Live Auction</h1>
 
-  <!-- Bid Input Section -->
+  <!-- Navigation & Admin Controls -->
+  <div class="input-section">
+    <button onclick="window.location.href='https://www.fmistemfoundation.org/auction-fmi-need'">Back to Auction Page</button>
+    <br><br>
+    <input type="password" id="adminPassword" placeholder="Admin Password" />
+    <button onclick="toggleAuction()">Toggle Auction</button>
+  </div>
+
+  <!-- Bidding Interface -->
   <div class="input-section">
     <input type="number" id="userId" placeholder="User Number" />
     <input type="number" id="amount" placeholder="Bid Amount" />
@@ -58,18 +66,10 @@
     <button onclick="submitBid()">Place Bid</button>
   </div>
 
-  <!-- Live Auction Leaderboard -->
+  <!-- Leaderboard -->
   <div id="auctionList"></div>
 
-  <!-- Reset Section -->
-  <div class="input-section" style="margin-top: 40px;">
-    <input type="password" id="resetPassword" placeholder="Admin Password" />
-    <br>
-    <button onclick="resetAuction()">Reset Auction</button>
-  </div>
-
-  <!-- Firebase App Script -->
+  <!-- Main Script -->
   <script type="module" src="./main.js"></script>
-
 </body>
 </html>
