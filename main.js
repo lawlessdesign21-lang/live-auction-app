@@ -1,9 +1,9 @@
 // Import Firebase (ES Modules via CDN)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
 
-// Firebase config
+// Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBqrEiSUKLSCjApJ2dnSH63hmwV95tcfAM",
   authDomain: "live-auctions-d9008.firebaseapp.com",
@@ -38,26 +38,6 @@ window.submitBid = function () {
   set(bidRef, amount);
 };
 
-// Reset auction after password check
-window.resetAuction = function () {
-  const password = prompt("Enter admin password to reset auction:");
-  if (password !== "admin123") {
-    alert("Incorrect password. Reset cancelled.");
-    return;
-  }
-
-  const bidsRef = ref(db, 'bids');
-  remove(bidsRef)
-    .then(() => {
-      auctionList.innerHTML = "";
-      alert("Auction has been reset.");
-    })
-    .catch((error) => {
-      console.error("Reset failed:", error);
-      alert("Failed to reset auction.");
-    });
-};
-
 // Listen for live updates and re-render the list
 const bidsRef = ref(db, 'bids');
 onValue(bidsRef, (snapshot) => {
@@ -65,9 +45,10 @@ onValue(bidsRef, (snapshot) => {
   renderAuction(data);
 });
 
-// Render auction leaderboard
+// Render the auction leaderboard
 function renderAuction(bids) {
   auctionList.innerHTML = "";
+
   if (!bids) return;
 
   const sortedBids = Object.entries(bids)
