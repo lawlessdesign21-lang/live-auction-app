@@ -38,6 +38,12 @@ window.submitBid = function () {
   set(bidRef, amount);
 };
 
+// Reset input fields
+window.resetForm = function () {
+  userIdInput.value = '';
+  amountInput.value = '';
+};
+
 // Listen for live updates and re-render the list
 const bidsRef = ref(db, 'bids');
 onValue(bidsRef, (snapshot) => {
@@ -48,7 +54,6 @@ onValue(bidsRef, (snapshot) => {
 // Render the auction leaderboard
 function renderAuction(bids) {
   auctionList.innerHTML = "";
-
   if (!bids) return;
 
   const sortedBids = Object.entries(bids)
