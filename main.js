@@ -62,3 +62,12 @@ function renderAuction(bids) {
     auctionList.appendChild(entry);
   });
 }
+
+// Reset all bids in the auction
+window.resetAuction = function () {
+  const confirmed = confirm("Are you sure you want to reset all bids?");
+  if (!confirmed) return;
+
+  const bidsRef = ref(db, 'bids');
+  set(bidsRef, null);
+};
