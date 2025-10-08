@@ -44,6 +44,10 @@
     .user-entry:last-child {
       border-bottom: none;
     }
+    .bottom-buttons {
+      text-align: center;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
@@ -54,8 +58,7 @@
     <input type="number" id="amount" placeholder="Bid Amount" />
     <br />
     <button onclick="submitBid()">Place Bid</button>
-    <button onclick="resetForm()">Reset</button>
-
+    
     <br /><br />
     <a href="https://www.fmistemfoundation.org/auction-fmi-need">
       <button>Return to Auction Site</button>
@@ -63,6 +66,10 @@
   </div>
 
   <div id="auctionList"></div>
+
+  <div class="bottom-buttons">
+    <button onclick="resetAuction()">Reset Auction</button>
+  </div>
 
   <!-- Load main JavaScript file as a module -->
   <script type="module" src="./main.js"></script>
