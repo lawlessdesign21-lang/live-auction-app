@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebas
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
 
-// Your Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBqrEiSUKLSCjApJ2dnSH63hmwV95tcfAM",
   authDomain: "live-auctions-d9008.firebaseapp.com",
@@ -23,21 +23,15 @@ const db = getDatabase(app);
 const userIdInput = document.getElementById("userId");
 const amountInput = document.getElementById("amount");
 const auctionList = document.getElementById("auctionList");
+const bidButton = document.getElementById("bidButton");
+const timerDisplay = document.getElementById("timer");
 
-// Auction status tracking
-const auctionStatusRef = ref(db, 'auctionStatus');
-let isAuctionRunning = true;
-
-// Listen for auction status updates
-onValue(auctionStatusRef, (snapshot) => {
-  const status = snapshot.val();
-  isAuctionRunning = status !== "stopped";
-});
+let biddingOpen = false; // Controls whether bids can be placed
 
 // Submit a bid to Firebase
 window.submitBid = function () {
-  if (!isAuctionRunning) {
-    alert("Auction is currently stopped. Bids cannot be placed.");
+  if (!biddingOpen) {
+    alert("Bidding has ended.");
     return;
   }
 
@@ -53,24 +47,7 @@ window.submitBid = function () {
   set(bidRef, amount);
 };
 
-// Toggle the auction status (admin only)
-window.toggleAuction = function () {
-  const passwordInput = document.getElementById("adminPassword");
-  const password = passwordInput.value.trim();
-
-  if (password !== "admin123") {
-    alert("Incorrect admin password.");
-    return;
-  }
-
-  const newStatus = isAuctionRunning ? "stopped" : "running";
-  set(auctionStatusRef, newStatus).then(() => {
-    alert(`Auction has been ${newStatus === "stopped" ? "stopped" : "resumed"}.`);
-    passwordInput.value = ""; // Clear password input
-  });
-};
-
-// Listen for live bid updates and re-render leaderboard
+// Listen for live updates and re-render the list
 const bidsRef = ref(db, 'bids');
 onValue(bidsRef, (snapshot) => {
   const data = snapshot.val();
@@ -80,7 +57,6 @@ onValue(bidsRef, (snapshot) => {
 // Render the auction leaderboard
 function renderAuction(bids) {
   auctionList.innerHTML = "";
-
   if (!bids) return;
 
   const sortedBids = Object.entries(bids)
@@ -94,3 +70,33 @@ function renderAuction(bids) {
     auctionList.appendChild(entry);
   });
 }
+
+// Admin timer logic
+window.startAdminTimer = function () {
+  const passwordInput = document.getElementById("adminPassword").value;
+  const correctPassword = "fmiadmin2025"; // Change to your desired password
+
+  if (passwordInput !== correctPassword) {
+    alert("Incorrect password.");
+    return;
+  }
+
+  // Start 3-minute timer
+  let timeLeft = 180; // seconds
+  biddingOpen = true;
+
+  const interval = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerDisplay.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    timeLeft--;
+
+    if (timeLeft < 0) {
+      clearInterval(interval);
+      timerDisplay.textContent = "Bidding has ended.";
+      biddingOpen = false;
+      bidButton.disabled = true;
+    }
+  }, 1000);
+};
