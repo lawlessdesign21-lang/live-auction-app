@@ -25,7 +25,6 @@
     button {
       padding: 10px 20px;
       margin-top: 10px;
-      margin-right: 10px;
     }
     #auctionList {
       max-width: 400px;
@@ -44,32 +43,20 @@
     .user-entry:last-child {
       border-bottom: none;
     }
-    .bottom-buttons {
-      text-align: center;
-      margin-top: 30px;
-    }
   </style>
 </head>
 <body>
+
   <h1>Live Auction</h1>
 
   <div class="input-section">
     <input type="number" id="userId" placeholder="User Number" />
     <input type="number" id="amount" placeholder="Bid Amount" />
-    <br />
+    <br>
     <button onclick="submitBid()">Place Bid</button>
-    
-    <br /><br />
-    <a href="https://www.fmistemfoundation.org/auction-fmi-need">
-      <button>Return to Auction Site</button>
-    </a>
   </div>
 
   <div id="auctionList"></div>
-
-  <div class="bottom-buttons">
-    <button onclick="resetAuction()">Reset Auction</button>
-  </div>
 
   <!-- Load main JavaScript file as a module -->
   <script type="module" src="./main.js"></script>
