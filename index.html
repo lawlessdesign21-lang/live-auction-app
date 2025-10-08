@@ -13,7 +13,7 @@
     h1 {
       text-align: center;
     }
-    .input-section, .admin-section {
+    .input-section {
       text-align: center;
       margin-bottom: 20px;
     }
@@ -25,7 +25,6 @@
     button {
       padding: 10px 20px;
       margin-top: 10px;
-      cursor: pointer;
     }
     #auctionList {
       max-width: 400px;
@@ -44,33 +43,21 @@
     .user-entry:last-child {
       border-bottom: none;
     }
-    #timer {
-      font-weight: bold;
-      margin-top: 10px;
-      color: red;
-    }
   </style>
 </head>
 <body>
-
   <h1>Live Auction</h1>
 
-  <!-- Admin Access Section -->
-  <div class="admin-section">
-    <button onclick="window.location.href='https://www.fmistemfoundation.org/auction-fmi-need'">Back to Auction Page</button>
-    <br><br>
-    <input type="password" id="adminPassword" placeholder="Enter Admin Password" />
-    <br>
-    <button onclick="startAdminTimer()">Start Auction Timer</button>
-    <div id="timer"></div>
-  </div>
-
-  <!-- Bidding Section -->
   <div class="input-section">
     <input type="number" id="userId" placeholder="User Number" />
     <input type="number" id="amount" placeholder="Bid Amount" />
     <br>
-    <button onclick="submitBid()" id="bidButton">Place Bid</button>
+    <button onclick="submitBid()">Place Bid</button>
+    
+    <br><br>
+    <a href="https://www.fmistemfoundation.org/auction-fmi-need">
+      <button>Return to Auction Site</button>
+    </a>
   </div>
 
   <div id="auctionList"></div>
