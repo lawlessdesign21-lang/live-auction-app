@@ -63,11 +63,24 @@ function renderAuction(bids) {
   });
 }
 
-// Reset all bids in the auction
+// Reset all bids with admin password
 window.resetAuction = function () {
+  const password = prompt("Enter admin password to reset the auction:");
+
+  if (password !== "admin123") {
+    alert("Incorrect password. Reset cancelled.");
+    return;
+  }
+
   const confirmed = confirm("Are you sure you want to reset all bids?");
   if (!confirmed) return;
 
   const bidsRef = ref(db, 'bids');
-  set(bidsRef, null);
+  set(bidsRef, null)
+    .then(() => {
+      alert("Auction has been reset.");
+    })
+    .catch((error) => {
+      alert("Error resetting auction: " + error.message);
+    });
 };
