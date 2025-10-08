@@ -25,6 +25,7 @@
     button {
       padding: 10px 20px;
       margin-top: 10px;
+      margin-right: 10px;
     }
     #auctionList {
       max-width: 400px;
@@ -51,10 +52,11 @@
   <div class="input-section">
     <input type="number" id="userId" placeholder="User Number" />
     <input type="number" id="amount" placeholder="Bid Amount" />
-    <br>
+    <br />
     <button onclick="submitBid()">Place Bid</button>
-    
-    <br><br>
+    <button onclick="resetForm()">Reset</button>
+
+    <br /><br />
     <a href="https://www.fmistemfoundation.org/auction-fmi-need">
       <button>Return to Auction Site</button>
     </a>
